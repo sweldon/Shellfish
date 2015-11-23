@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Shellfish</string>
+    <string name="title_activity_maps">Shellfish Map</string>
+    <string name="title_home">Shellfish</string>
+    <string name="plot_button">Test Map</string>
+    <string name="main_header_text">Dashboard</string>
+    <string name="findme_text">Find Me</string>
+    <string name="testdb_text">Test Database</string>
+    <string name="title_activity_database">Database Query Test</string>
+</resources>

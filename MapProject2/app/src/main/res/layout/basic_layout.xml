@@ -1,0 +1,57 @@
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView android:id="@+id/header" android:layout_width="match_parent"
+            android:layout_height="40dp" android:keepScreenOn="true" android:textColor="#33b5e5"
+            android:textStyle="bold" android:textSize="30sp" android:gravity= "center_horizontal"
+
+            android:text="@string/main_header_text"
+
+            />
+        <TextView android:id="@+id/location"
+            android:layout_below="@+id/header"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity= "center_horizontal"
+
+            />
+        <TextView android:id="@+id/body"
+            android:layout_below="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:textColor="#000000"
+            android:textStyle="bold" android:textSize="18sp"
+            android:padding="5dp"
+            android:autoLink="web"
+            android:gravity= "center"/>
+
+        <Button android:id="@+id/syncmap"
+            android:layout_below="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/plot_button"
+            android:onClick="plotme" />
+        <Button android:id="@+id/findme"
+            android:layout_below="@+id/syncmap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/findme_text"
+            android:onClick="findme" />
+
+        <Button android:id="@+id/connectDB"
+            android:layout_above="@+id/syncmap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/testdb_text"
+            android:onClick="connectDB" />
+
+
+
+
+
+
+</RelativeLayout>
