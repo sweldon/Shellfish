@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:name="com.google.android.gms.maps.MapFragment"
@@ -27,15 +28,19 @@
     android:layout_gravity="top|right"
     android:text="@string/pinpoint_text"
     android:textColor="@color/white"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
     android:background="@drawable/backgrounds"
+    android:layout_marginTop="5dp"
     android:onClick="pinpointMe" />
 
 <EditText
     android:id="@+id/location_search"
-    android:layout_above="@+id/connectDB"
-
-    android:layout_width="314dp"
-    android:layout_height="51dp"
+    android:layout_marginTop="4dp"
+    android:layout_width="match_parent"
+    android:layout_marginEnd="50dp"
+    android:layout_marginRight="50dp"
+    android:layout_height="50dp"
     android:hint="@string/location_hint"
     android:inputType="text" />
 
