@@ -8,4 +8,5 @@
     <string name="testdb_text">Test Database</string>
     <string name="title_activity_database">Database Query Test</string>
     <string name="location_hint">Location</string>
+    <string name="pinpoint_text">Go</string>
 </resources>

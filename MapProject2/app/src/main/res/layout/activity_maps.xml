@@ -20,12 +20,22 @@
     android:text="@string/testdb_text"
     android:onClick="connectDB" />
 
+<Button android:id="@+id/pinpoint"
+
+    android:layout_width="50dp"
+    android:layout_height="44dp"
+    android:layout_gravity="top|right"
+    android:text="@string/pinpoint_text"
+    android:textColor="@color/white"
+    android:background="@drawable/backgrounds"
+    android:onClick="pinpointMe" />
+
 <EditText
     android:id="@+id/location_search"
     android:layout_above="@+id/connectDB"
 
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_width="314dp"
+    android:layout_height="51dp"
     android:hint="@string/location_hint"
     android:inputType="text" />
 

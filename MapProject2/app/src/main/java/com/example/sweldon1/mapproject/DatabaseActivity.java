@@ -115,7 +115,7 @@ public class DatabaseActivity extends ListActivity {
             pDialog = new ProgressDialog(DatabaseActivity.this);
             pDialog.setMessage("Loading zones. Please wait...");
             pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
+            pDialog.setCancelable(true);
             pDialog.show();
         }
 
