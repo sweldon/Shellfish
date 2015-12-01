@@ -27,6 +27,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
@@ -38,6 +40,9 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
+import org.json.*;
+
 
 public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
@@ -129,18 +134,33 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
     public void pinpointMe(View view)
     {
-        // DRAG IN EDIT TEXT, USE TO GET COORDINATES, MOVE MAP
-        MapFragment mapFragment  = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
-
-        GoogleMap map = mapFragment.getMap();
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.466099,-73.485646), 14));
+//        // DRAG IN EDIT TEXT, USE TO GET COORDINATES, MOVE MAP
+//        MapFragment mapFragment  = (MapFragment) getFragmentManager()
+//                .findFragmentById(R.id.map);
+//        //mapFragment.getMapAsync(this);
+//
+//        GoogleMap map = mapFragment.getMap();
+//
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.466099,-73.485646), 14));
 
         locationView = (EditText) findViewById(R.id.location_search);
         final String locationText = locationView.getText().toString();
         System.out.println(locationText);
+
+        try
+        {
+            String test = "https://maps.googleapis.com/maps/api/geocode/json?address=" + locationText;
+            test = test.replace(" ","%20");
+            new WebRetrieval().execute(test);
+            System.out.println("EXECUTING WEB RETRIEVAL: "+test);
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("ERROR");
+        }
+
+
 
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -172,9 +192,9 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         {
             //ask to enable one of them
 
+            location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
         }
-
-
 
 
         LocationListener locationListener = new LocationListener() {
@@ -215,6 +235,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
             public void onProviderDisabled(String provider) {
             }
         };
+
+
         // requestLocationUpdates params: provider, mintime, mindistance, intent (which is locationListener)
 
         //lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600000, 500, locationListener);
@@ -231,6 +253,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 //    }
 //
     private class WebRetrieval extends AsyncTask<String, Void, String> {
+
+        
 
         private Exception exception;
         String result = "";
@@ -256,7 +280,7 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
                 this.exception = e;
                 return null;
             }
-
+            System.out.println("RESULT VALUE: "+result);
             return result;
 
         }
@@ -264,9 +288,41 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         @Override
         protected void onPostExecute(String output) {
 
-            String userLocation = output.toString();
+            // DRAG IN EDIT TEXT, USE TO GET COORDINATES, MOVE MAP
+            MapFragment mapFragment  = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map);
+            //mapFragment.getMapAsync(this);
 
-            System.out.println("THE USER LOCATION: " + userLocation);
+            GoogleMap map = mapFragment.getMap();
+
+            System.out.println("DATA RETRIEVED! -> "+output);
+
+            // PARSE JSON TO GET LAT AND LONG, THEN U CAN PLOT
+            JSONObject obj;
+            String latitude;
+            String longitude;
+            double lat;
+            double lng;
+            try {
+                System.out.println("PARSING JSON");
+                obj = new JSONObject(output);
+                latitude = obj.getJSONObject("results").getJSONObject("geometry").getJSONObject("location").getString("lat");
+                longitude = obj.getJSONObject("results").getJSONObject("geometry").getJSONObject("location").getString("lng");
+                lat = Double.parseDouble(latitude);
+                lng = Double.parseDouble(longitude);
+                System.out.println("LAT AND LNG: "+lat+" "+lng);
+
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
 
 
         }
