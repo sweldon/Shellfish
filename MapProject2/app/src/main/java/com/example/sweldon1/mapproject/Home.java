@@ -1,56 +1,34 @@
 package com.example.sweldon1.mapproject;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-
 import org.json.*;
 
 
 public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
 
-    private static final String TAG = "";
-    private TextView location;
-    private TextView body;
     private EditText locationView;
 
     @Override
@@ -70,8 +48,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
     public void onMapReady(GoogleMap map) {
 
         map.getUiSettings().setMyLocationButtonEnabled(false);
-        boolean gps_enabled = false;
-        boolean network_enabled = false;
+        boolean gps_enabled;
+        boolean network_enabled;
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         map.setMyLocationEnabled(true);
 
@@ -135,14 +113,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
     public void pinpointMe(View view)
     {
-//        // DRAG IN EDIT TEXT, USE TO GET COORDINATES, MOVE MAP
-//        MapFragment mapFragment  = (MapFragment) getFragmentManager()
-//                .findFragmentById(R.id.map);
-//        //mapFragment.getMapAsync(this);
-//
-//        GoogleMap map = mapFragment.getMap();
-//
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.466099,-73.485646), 14));
 
         locationView = (EditText) findViewById(R.id.location_search);
         final String locationText = locationView.getText().toString();
@@ -160,8 +130,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
             e.printStackTrace();
             System.out.println("ERROR");
         }
-
-
 
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -201,37 +169,17 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         LocationListener locationListener = new LocationListener() {
             public void onProviderEnabled(String provider) {
 
-
             }
 
             @Override
             // onlocationchanged needs to change, causing so many gps references. data + battery = rip
             public void onLocationChanged(Location location) {
-//                System.out.println("LOCATION CHANGED!");
-//
-////                double lat = location.getLatitude();
-////                double lng = location.getLongitude();
-//                String locationText = locationView.getText().toString();
-//                String result = "";
-//
-//                try {
-//                    String test = "https://www.google.com/maps/place/" + locationText;
-//                    //new WebRetrieval().execute(test);
-//                    System.out.println("User Entered: "+test);
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    System.out.println("ERORRRRR");
-//                }
 
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
-
-//            public void onProviderEnabled(String provider) {
-//            }
 
             public void onProviderDisabled(String provider) {
             }
@@ -316,11 +264,10 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
                 lat = Double.parseDouble(latitude);
                 lng = Double.parseDouble(longitude);
-                System.out.println("LAT AND LNG: "+lat+" "+lng);
+                System.out.println("LAT AND LNG: " + lat + " " + lng);
 
 
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(Home.getWindowToken(), 0);
+                hideSoftKeyboard();
 
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
@@ -328,16 +275,16 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
                 e.printStackTrace();
             }
 
-
-
-
-
-
-
-
         }
 
     }
 
+    // Close the soft keyboard
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 
 }
