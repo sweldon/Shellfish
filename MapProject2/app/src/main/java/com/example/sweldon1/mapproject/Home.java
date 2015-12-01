@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
     {
         super.onCreate(savedInstanceState);
 
-          setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps);
 
         MapFragment mapFragment  = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -254,7 +255,7 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 //
     private class WebRetrieval extends AsyncTask<String, Void, String> {
 
-        
+
 
         private Exception exception;
         String result = "";
@@ -281,10 +282,11 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
                 return null;
             }
             System.out.println("RESULT VALUE: "+result);
+            result = result.replace(" ","");
             return result;
 
         }
-//
+        //
         @Override
         protected void onPostExecute(String output) {
 
@@ -306,11 +308,19 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
             try {
                 System.out.println("PARSING JSON");
                 obj = new JSONObject(output);
-                latitude = obj.getJSONObject("results").getJSONObject("geometry").getJSONObject("location").getString("lat");
-                longitude = obj.getJSONObject("results").getJSONObject("geometry").getJSONObject("location").getString("lng");
+
+                JSONArray arr = obj.getJSONArray("results");
+
+                latitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
+                longitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
+
                 lat = Double.parseDouble(latitude);
                 lng = Double.parseDouble(longitude);
                 System.out.println("LAT AND LNG: "+lat+" "+lng);
+
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(Home.getWindowToken(), 0);
 
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
@@ -326,9 +336,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
 
         }
-        
-}
+
+    }
 
 
 }
-
