@@ -35,7 +35,7 @@ public class DatabaseActivity extends ListActivity {
     ArrayList<HashMap<String, String>> zonesList;
 
     // url to get all zones list
-    private static String url_zones = "http://192.168.1.65/shellfish/get_zones.php";
+    private static String url_zones = "http://192.168.56.1/shellfish/get_zones.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
