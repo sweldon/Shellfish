@@ -1,0 +1,33 @@
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Home"
+    android:background="@drawable/backgrounds">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/action_search"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_boat"
+        android:icon="@mipmap/ic_directions_boat_white_24dp"
+        android:title="@string/action_boat"
+        app:showAsAction="always"/>
+
+    <!--<item-->
+        <!--android:id="@+id/action_money"-->
+        <!--android:icon="@mipmap/ic_attach_money_white_24dp"-->
+        <!--android:title="@string/action_money"-->
+        <!--app:showAsAction="always"/>-->
+
+
+
+    <!--&lt;!&ndash; Settings, should always be in the overflow  &ndash;&gt;-->
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
+
+</menu>

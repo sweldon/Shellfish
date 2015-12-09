@@ -8,5 +8,6 @@
     <color name="white">#fff</color>
     <color name="search_color">#009688</color>
     <color name="search_color_dark">#004a43</color>
+    <color name="actionbar_color">#79973F</color>
 
 </resources>

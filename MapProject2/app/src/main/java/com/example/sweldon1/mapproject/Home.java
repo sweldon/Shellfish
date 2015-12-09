@@ -8,6 +8,10 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -41,6 +45,9 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         MapFragment mapFragment  = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
     }
 
@@ -166,22 +173,27 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         }
 
 
-        LocationListener locationListener = new LocationListener() {
-            public void onProviderEnabled(String provider) {
+        LocationListener locationListener = new LocationListener()
+        {
+            public void onProviderEnabled(String provider)
+            {
 
             }
 
             @Override
             // onlocationchanged needs to change, causing so many gps references. data + battery = rip
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(Location location)
+            {
 
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {
+            public void onStatusChanged(String provider, int status, Bundle extras)
+            {
 
             }
 
-            public void onProviderDisabled(String provider) {
+            public void onProviderDisabled(String provider)
+            {
             }
         };
 
@@ -201,7 +213,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 //        Home.this.startActivity(intent);
 //    }
 //
-    private class WebRetrieval extends AsyncTask<String, Void, String> {
+    private class WebRetrieval extends AsyncTask<String, Void, String>
+    {
 
 
 
@@ -270,7 +283,13 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
                 hideSoftKeyboard();
 
 
+
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
+
+
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -280,11 +299,56 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
     }
 
     // Close the soft keyboard
-    public void hideSoftKeyboard() {
+    public void hideSoftKeyboard()
+    {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+    //Add the Actions to the Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+
+
+                return true;
+            case R.id.action_search:
+
+               //
+                return true;
+            case R.id.action_boat:
+
+                startActivity(new Intent(Home.this, Info.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+//
+//                Intent intent = new Intent(Home.this, Info.class);
+//
+//
+//                Home.this.startActivity(intent);
+
+                //
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
 
 }

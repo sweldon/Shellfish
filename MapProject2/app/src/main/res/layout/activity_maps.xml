@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     android:name="com.google.android.gms.maps.MapFragment"
     android:id="@+id/map"
     android:layout_width="match_parent"
@@ -11,6 +12,15 @@
     map:uiTiltGestures="true"
     map:uiZoomControls="true"
     map:uiZoomGestures="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/search_color"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
 <Button android:id="@+id/connectDB"
 
@@ -23,6 +33,7 @@
     android:textColor="@color/white"
     android:onClick="connectDB" />
 
+
 <Button android:id="@+id/pinpoint"
 
     android:layout_width="50dp"
@@ -33,17 +44,18 @@
     android:layout_marginEnd="2dp"
     android:layout_marginRight="2dp"
     android:background="@drawable/backgrounds"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="60dp"
     android:onClick="pinpointMe" />
 
 <EditText
     android:id="@+id/location_search"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="61dp"
     android:layout_width="match_parent"
     android:layout_marginEnd="50dp"
     android:layout_marginRight="50dp"
     android:layout_height="50dp"
     android:hint="@string/location_hint"
+
     android:inputType="text" />
 
 </fragment>
