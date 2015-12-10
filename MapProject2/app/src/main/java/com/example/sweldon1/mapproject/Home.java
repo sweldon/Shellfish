@@ -1,13 +1,20 @@
 package com.example.sweldon1.mapproject;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,9 +42,13 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
     private EditText locationView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
@@ -47,9 +58,15 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
 
+
+
     }
+
+
+
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -216,13 +233,30 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
     private class WebRetrieval extends AsyncTask<String, Void, String>
     {
 
+        private ProgressDialog pDialog;
+
 
 
         private Exception exception;
         String result = "";
 
         @Override
+        protected void onPreExecute() {
+            hideSoftKeyboard();
+
+
+
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Home.this);
+            pDialog.setMessage("Searching...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... inputURL) {
+
             try {
 
                 URL oracle = new URL(inputURL[0]);
@@ -251,6 +285,7 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         @Override
         protected void onPostExecute(String output) {
 
+
             // DRAG IN EDIT TEXT, USE TO GET COORDINATES, MOVE MAP
             MapFragment mapFragment  = (MapFragment) getFragmentManager()
                     .findFragmentById(R.id.map);
@@ -266,28 +301,47 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
             String longitude;
             double lat;
             double lng;
+
             try {
                 System.out.println("PARSING JSON");
                 obj = new JSONObject(output);
 
-                JSONArray arr = obj.getJSONArray("results");
 
-                latitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
-                longitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
 
-                lat = Double.parseDouble(latitude);
-                lng = Double.parseDouble(longitude);
+                String status = obj.getString("status");
+
+                System.out.println(status);
+
+                if(status.equals("ZERO_RESULTS"))
+                {
+                    System.out.println("IT IS NOTHING");
+                    latitude = "47.610377";
+                    longitude = "-122.2006786";
+                    lat = Double.parseDouble(latitude);
+                    lng = Double.parseDouble(longitude);
+                }
+                else
+                {
+                    JSONArray arr = obj.getJSONArray("results");
+
+                    latitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
+                    longitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
+
+                    lat = Double.parseDouble(latitude);
+                    lng = Double.parseDouble(longitude);
+                }
+
                 System.out.println("LAT AND LNG: " + lat + " " + lng);
 
 
-                hideSoftKeyboard();
+
 
 
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
 
 
-
+                pDialog.dismiss();
 
 
             } catch (JSONException e) {
@@ -349,6 +403,8 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
         }
     }
+
+
 
 
 }

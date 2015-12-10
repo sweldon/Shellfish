@@ -22,16 +22,16 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-<Button android:id="@+id/connectDB"
+<!--<Button android:id="@+id/connectDB"-->
 
-    android:layout_width="150dp"
-    android:layout_height="50dp"
-    android:layout_marginBottom="2dp"
-    android:layout_gravity="center|bottom"
-    android:text="@string/testdb_text"
-    android:background="@drawable/backgrounds"
-    android:textColor="@color/white"
-    android:onClick="connectDB" />
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_marginBottom="2dp"-->
+    <!--android:layout_gravity="center|bottom"-->
+    <!--android:text="@string/testdb_text"-->
+    <!--android:background="@drawable/backgrounds"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:onClick="connectDB" />-->
 
 
 <Button android:id="@+id/pinpoint"
@@ -49,12 +49,16 @@
 
 <EditText
     android:id="@+id/location_search"
-    android:layout_marginTop="61dp"
+    android:layout_marginTop="60dp"
     android:layout_width="match_parent"
     android:layout_marginEnd="50dp"
     android:layout_marginRight="50dp"
-    android:layout_height="50dp"
+    android:layout_marginLeft="2dp"
+    android:layout_height="44dp"
     android:hint="@string/location_hint"
+    android:background="#B3FFFFFF"
+
+
 
     android:inputType="text" />
 
