@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-
-import com.google.android.gms.maps.MapFragment;
+import android.view.MenuItem;
 
 
 public class Info extends ActionBarActivity
@@ -19,6 +18,8 @@ public class Info extends ActionBarActivity
         setContentView(R.layout.activity_blank);
 
 
+
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
@@ -28,8 +29,17 @@ public class Info extends ActionBarActivity
 
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setHomeButtonEnabled(true);
+
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+    }
+
 
 }
