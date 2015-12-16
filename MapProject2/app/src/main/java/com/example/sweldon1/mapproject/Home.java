@@ -37,18 +37,13 @@ import java.net.URLConnection;
 import org.json.*;
 
 
-public class Home extends ActionBarActivity  implements OnMapReadyCallback {
-
-
+public class Home extends ActionBarActivity  implements OnMapReadyCallback
+{
     private EditText locationView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
@@ -60,17 +55,11 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
-
-
-
     }
 
-
-
-
     @Override
-    public void onMapReady(GoogleMap map) {
-
+    public void onMapReady(GoogleMap map)
+    {
         map.getUiSettings().setMyLocationButtonEnabled(false);
         boolean gps_enabled;
         boolean network_enabled;
@@ -107,7 +96,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
         }
 
-
         if(location != null) {
             double longitude = location.getLongitude();
             double latitude = location.getLatitude();
@@ -118,21 +106,15 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
             System.out.println("LOCATION NOT DETECTED! :(");
             me = new LatLng(0, 0);
         }
-
-
         // normal, hybrid, terrain, satellite
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 14));
-
-
     }
 
     public void connectDB(View view)
     {
-
         Intent intent = new Intent(Home.this, DatabaseActivity.class);
         Home.this.startActivity(intent);
-
     }
 
     public void pinpointMe(View view)
@@ -223,7 +205,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
     }
 
-
     //Starting new activity
 //    public void plotme(View view) {
 //        Intent intent = new Intent(Home.this, MapsActivity.class);
@@ -232,10 +213,7 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 //
     private class WebRetrieval extends AsyncTask<String, Void, String>
     {
-
         private ProgressDialog pDialog;
-
-
 
         private Exception exception;
         String result = "";
@@ -243,8 +221,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         @Override
         protected void onPreExecute() {
             hideSoftKeyboard();
-
-
 
             super.onPreExecute();
             pDialog = new ProgressDialog(Home.this);
@@ -306,8 +282,6 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
                 System.out.println("PARSING JSON");
                 obj = new JSONObject(output);
 
-
-
                 String status = obj.getString("status");
 
                 System.out.println(status);
@@ -333,16 +307,9 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
 
                 System.out.println("LAT AND LNG: " + lat + " " + lng);
 
-
-
-
-
-
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
 
-
                 pDialog.dismiss();
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -369,14 +336,11 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId()) {
             case R.id.action_settings:
-
 
                 return true;
             case R.id.action_search:
