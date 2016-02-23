@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -279,38 +281,52 @@ public class Home extends ActionBarActivity  implements OnMapReadyCallback
             double lng;
 
             try {
-                System.out.println("PARSING JSON");
-                obj = new JSONObject(output);
-
-                String status = obj.getString("status");
-
-                System.out.println(status);
-
-                if(status.equals("ZERO_RESULTS"))
+                if (output == null)
                 {
-                    System.out.println("IT IS NOTHING");
-                    latitude = "47.610377";
-                    longitude = "-122.2006786";
-                    lat = Double.parseDouble(latitude);
-                    lng = Double.parseDouble(longitude);
+                    Context context = getApplicationContext();
+                    CharSequence text = "Please turn on WiFi or Data";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    pDialog.dismiss();
                 }
                 else
                 {
-                    JSONArray arr = obj.getJSONArray("results");
+                    System.out.println("PARSING JSON");
 
-                    latitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
-                    longitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
+                    obj = new JSONObject(output);
 
-                    lat = Double.parseDouble(latitude);
-                    lng = Double.parseDouble(longitude);
+                    String status = obj.getString("status");
+
+                    System.out.println(status);
+
+                    if(status.equals("ZERO_RESULTS"))
+                    {
+                        System.out.println("IT IS NOTHING");
+                        latitude = "47.610377";
+                        longitude = "-122.2006786";
+                        lat = Double.parseDouble(latitude);
+                        lng = Double.parseDouble(longitude);
+                    }
+                    else
+                    {
+                        JSONArray arr = obj.getJSONArray("results");
+
+                        latitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
+                        longitude = arr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
+
+                        lat = Double.parseDouble(latitude);
+                        lng = Double.parseDouble(longitude);
+                    }
+
+                    System.out.println("LAT AND LNG: " + lat + " " + lng);
+
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
+
+                    pDialog.dismiss();
+
                 }
-
-                System.out.println("LAT AND LNG: " + lat + " " + lng);
-
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14));
-
-                pDialog.dismiss();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
